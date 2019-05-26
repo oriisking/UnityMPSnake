@@ -27,6 +27,8 @@ public class SnakeTwo : MonoBehaviour
     public Transform borderLeft;
     public Transform borderRight;
 
+    public GameObject snake2;
+
 
 
     // Use this for initialization
@@ -95,17 +97,32 @@ public class SnakeTwo : MonoBehaviour
             Destroy(coll.gameObject);
 
         }
-        // Collided with Tail or Border
+        // Collided with a border
+        else if (coll.gameObject.tag == "Borders")
+        {
+            // x position between left & right border
+            int x = (int)Random.Range(-50,60);
+
+            // y position between top & bottom border
+            int y = (int)Random.Range(-30, 30);
+
+            GameObject[] tail1 = GameObject.FindGameObjectsWithTag("TailPrefab2");
+            foreach (GameObject tailObject in tail1)
+            {
+                Destroy(tailObject.gameObject);
+            }
+            tail.Clear();
+            snake2.transform.position = new Vector2(x, y);
+
+        }
+        // Collided with Tail
         else
         {
-            GameObject go;
-            do
+            GameObject[] tail1 = GameObject.FindGameObjectsWithTag("TailPrefab2");
+            foreach (GameObject tailObject in tail1)
             {
-                go = GameObject.Find("TailPrefab2(Clone)");
-                if (go)
-                    Destroy(go.gameObject);
+                Destroy(tailObject.gameObject);
             }
-            while (go != null);
             tail.Clear();
         }
     }

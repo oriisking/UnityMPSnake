@@ -31,17 +31,19 @@ public class MainCamera : MonoBehaviour
             //Create A new food somewhere eles
             SpawnFood();
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
 
     }
     void SpawnFood()
     {
         // x position between left & right border
-        int x = (int)Random.Range(borderLeft.position.x + 50,
-                                  borderRight.position.x - 50);
+        int x = (int)Random.Range(-50, 60);
 
         // y position between top & bottom border
-        int y = (int)Random.Range(borderBottom.position.y + 50,
-                                  borderTop.position.y - 50);
+        int y = (int)Random.Range(-30, 30);
 
         // Instantiate the food at (x, y)
         Instantiate(foodPrefab,

@@ -27,6 +27,8 @@ public class SnakeOne : MonoBehaviour
     public Transform borderLeft;
     public Transform borderRight;
 
+    public GameObject snake1;
+
 
 
     // Use this for initialization
@@ -85,26 +87,46 @@ public class SnakeOne : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        // Food?
+       
+        // Collided with a food prefab.
         if (coll.name.StartsWith("FoodPrefab"))
         {
+            Debug.Log("Collided with food");
             // Get longer in next Move call
             ate = true;
 
             // Remove the Food
             Destroy(coll.gameObject);
+
         }
-        // Collided with Tail or Border
+        // Collided with a border
+        else if (coll.gameObject.tag == "Borders")
+        {
+            Debug.Log("Collided with border");
+            // x position between left & right border
+            int x = (int)Random.Range(-50, 60);
+
+            // y position between top & bottom border
+            int y = (int)Random.Range(-30, 30);
+
+            GameObject[] tail1 = GameObject.FindGameObjectsWithTag("TailPrefab1");
+            foreach (GameObject tailObject in tail1)
+            {
+                Destroy(tailObject.gameObject);
+            }
+            tail.Clear();
+            snake1.transform.position = new Vector2(x, y);
+
+        }
+        // Collided with Tail
         else
         {
-            GameObject go;
-            do
+            Debug.Log("Collided with tail");
+            GameObject[] tail1 = GameObject.FindGameObjectsWithTag("TailPrefab1");
+            foreach (GameObject tailObject in tail1)
             {
-                go = GameObject.Find("TailPrefab1(Clone)");
-                if(go)
-                    Destroy(go.gameObject);
+                Destroy(tailObject.gameObject);
             }
-            while (go != null);
             tail.Clear();
         }
     }
